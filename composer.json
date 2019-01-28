@@ -1,0 +1,33 @@
+{
+    "name": "ezsystems/ezplatform-core",
+    "description": "eZ Platform core bundles container",
+    "type": "library",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "eZ dev-team & eZ Community",
+            "homepage": "https://github.com/ezsystems/ezplatform-core/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "EzSystems\\EzPlatformEncoreBundle\\": "src/EzPlatformEncoreBundle/bundle/"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "symfony/symfony": "^3.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "~2.7.1",
+        "phpunit/phpunit": "^6.4"
+    },
+    "scripts": {
+        "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
