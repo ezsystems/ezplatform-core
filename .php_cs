@@ -27,6 +27,7 @@ return PhpCsFixer\Config::create()
         'yoda_style' => false,
         'no_break_comment' => false,
         'self_accessor' => false,
+        'declare_strict_types' => true,
     ])
     ->setRiskyAllowed(true)
     ->setFinder(
