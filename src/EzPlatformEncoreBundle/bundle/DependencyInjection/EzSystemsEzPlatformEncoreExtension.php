@@ -15,10 +15,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class EzSystemsEzPlatformEncoreExtension extends Extension
 {
-    const CONFIGS_NAME = [
+    const CONFIG_NAMES = [
         'ez.config.js',
         'ez.config.manager.js',
-        'webpack.config.js',
+        'ez.webpack.config.js',
     ];
 
     /**
