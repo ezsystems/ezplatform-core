@@ -65,7 +65,7 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
             );
         }
 
-        $filesystem->mkdir($targetPath);
+        $filesystem->mkdir($rootPath . '/' . $targetPath);
         $filesystem->dumpFile(
             $rootPath . $targetPath . '/' . $configName,
             sprintf('module.exports = %s;', json_encode($paths))
