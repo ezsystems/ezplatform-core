@@ -27,7 +27,7 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $bundlesMetadata = $container->getParameter('kernel.bundles_metadata');
-        $rootPath = \dirname($container->getParameter('kernel.root_dir'));
+        $rootPath = \dirname($container->getParameter('kernel.root_dir')) . '/';
         $targetPath = 'var/encore';
 
         foreach (self::CONFIGS_NAME as $configName) {
@@ -60,14 +60,14 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
         foreach ($finder as $fileInfo) {
             $paths[] = preg_replace(
                 '/^' . preg_quote($rootPath, '/') . '/',
-                '.',
+                './',
                 $fileInfo->getRealPath()
             );
         }
 
         $filesystem->mkdir($targetPath);
         $filesystem->dumpFile(
-            $rootPath . '/' . $targetPath . '/' . $configName,
+            $rootPath . $targetPath . '/' . $configName,
             sprintf('module.exports = %s;', json_encode($paths))
         );
     }
