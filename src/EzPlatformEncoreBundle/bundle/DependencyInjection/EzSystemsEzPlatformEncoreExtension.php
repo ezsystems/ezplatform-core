@@ -60,7 +60,7 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
             );
         }
 
-        $filesystem->mkdir($targetPath);
+        $filesystem->mkdir($rootPath . '/' . $targetPath);
         $filesystem->dumpFile(
             $rootPath . $targetPath . '/' . self::EZ_ENCORE_CONFIG_NAME,
             sprintf('module.exports = %s;', json_encode($paths))
@@ -96,7 +96,7 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
             );
         }
 
-        $filesystem->mkdir($targetPath);
+        $filesystem->mkdir($rootPath . '/' . $targetPath);
         $filesystem->dumpFile(
             $rootPath . $targetPath . '/' . self::EZ_ENCORE_MANAGER_NAME,
             sprintf('module.exports = %s;', json_encode($paths))
