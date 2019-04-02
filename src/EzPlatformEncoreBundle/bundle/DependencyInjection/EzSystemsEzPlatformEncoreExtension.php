@@ -30,7 +30,7 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
         $rootPath = \dirname($container->getParameter('kernel.root_dir')) . '/';
         $targetPath = 'var/encore';
 
-        foreach (self::CONFIGS_NAME as $configName) {
+        foreach (self::CONFIG_NAMES as $configName) {
             $this->dumpConfigurationPathsToFile($configName, $rootPath, $targetPath, $bundlesMetadata);
         }
     }
