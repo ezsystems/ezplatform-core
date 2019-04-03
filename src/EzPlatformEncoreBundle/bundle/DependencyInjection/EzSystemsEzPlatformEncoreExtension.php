@@ -18,7 +18,7 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
     const CONFIG_NAMES = [
         'ez.config.js',
         'ez.config.manager.js',
-        'ez.webpack.config.js',
+        'ez.webpack.custom.config.js',
     ];
 
     /**
