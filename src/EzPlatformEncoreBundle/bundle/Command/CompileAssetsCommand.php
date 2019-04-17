@@ -16,10 +16,12 @@ use Symfony\Component\Process\Process;
 
 class CompileAssetsCommand extends ContainerAwareCommand
 {
+    public const COMMAND_NAME = 'ezplatform:encore:compile';
+
     protected function configure(): void
     {
         $this
-            ->setName('ezplatform:encore:compile')
+            ->setName(self::COMMAND_NAME)
             ->setDescription('Compiles all assets using WebPack Encore')
             ->addOption(
                 'timeout',

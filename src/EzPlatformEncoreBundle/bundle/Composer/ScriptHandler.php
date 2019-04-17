@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace EzSystems\EzPlatformEncoreBundle\Composer;
 
 use Composer\Script\Event;
+use EzSystems\EzPlatformEncoreBundle\Command\CompileAssetsCommand;
 use RuntimeException;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -21,8 +22,6 @@ use Composer\Util\ProcessExecutor;
  */
 class ScriptHandler
 {
-    public const EZPLATFORM_ENCORE_COMPILE_CMD_NAME = 'ezplatform:encore:compile';
-
     /**
      * @param \Composer\Script\Event $event
      */
@@ -43,7 +42,7 @@ class ScriptHandler
         }
 
         $process = new Process(
-            "{$php} {$console} " . self::EZPLATFORM_ENCORE_COMPILE_CMD_NAME,
+            "{$php} {$console} " . CompileAssetsCommand::COMMAND_NAME,
             null,
             null,
             null,
@@ -56,7 +55,7 @@ class ScriptHandler
         if (!$process->isSuccessful()) {
             throw new RuntimeException(sprintf(
                 "An error occurred when executing the \"%s\" command:\n\n%s\n\n%s",
-                ProcessExecutor::escape(self::EZPLATFORM_ENCORE_COMPILE_CMD_NAME),
+                ProcessExecutor::escape(CompileAssetsCommand::COMMAND_NAME),
                 self::removeDecoration($process->getOutput()),
                 self::removeDecoration($process->getErrorOutput()))
             );
