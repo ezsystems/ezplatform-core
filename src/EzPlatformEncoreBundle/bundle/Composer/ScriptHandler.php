@@ -38,12 +38,28 @@ class ScriptHandler
         }
 
         $process = new Process(
+            "{$php} {$console} bazinga:js-translation:dump web/assets --merge-domains",
+            null,
+            null,
+            null,
+            $timeout
+        );
+
+        $this->runProcess($event, $process, "bazinga:js-translation:dump");
+
+        $process = new Process(
             "{$php} {$console} " . CompileAssetsCommand::COMMAND_NAME,
             null,
             null,
             null,
             $timeout
         );
+
+        $this->runProcess($event, $process, CompileAssetsCommand::COMMAND_NAME);
+    }
+
+    private function runProcess(Event $event, Process $process, string $commandName): void
+    {
         $process->run(function ($type, $buffer) use ($event) {
             $event->getIO()->write($buffer, false);
         });
@@ -51,7 +67,7 @@ class ScriptHandler
         if (!$process->isSuccessful()) {
             throw new RuntimeException(sprintf(
                 "An error occurred when executing the \"%s\" command:\n\n%s\n\n%s",
-                ProcessExecutor::escape(CompileAssetsCommand::COMMAND_NAME),
+                ProcessExecutor::escape($commandName),
                 self::removeDecoration($process->getOutput()),
                 self::removeDecoration($process->getErrorOutput()))
             );
