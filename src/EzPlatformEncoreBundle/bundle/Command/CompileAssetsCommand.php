@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\EzPlatformEncoreBundle\Command;
 
+use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,8 +30,16 @@ class CompileAssetsCommand extends ContainerAwareCommand
                 InputOption::VALUE_OPTIONAL,
                 'Timeout in seconds',
                 300
-            )
-        ;
+            );
+    }
+
+    protected function initialize(InputInterface $input, OutputInterface $output): void
+    {
+        $timeout = $input->getOption('timeout');
+
+        if (!is_numeric($timeout)) {
+            throw new InvalidArgumentException('Timeout value has to be an integer.');
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
