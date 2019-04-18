@@ -37,10 +37,6 @@ class ScriptHandler
             $console .= ' --ansi';
         }
 
-        if (!$event->isDevMode()) {
-            $console .= ' --env=prod';
-        }
-
         $process = new Process(
             "{$php} {$console} " . CompileAssetsCommand::COMMAND_NAME,
             null,
