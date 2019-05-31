@@ -28,7 +28,7 @@ class ScriptHandler
     public static function compileAssets(Event $event): void
     {
         $options = $event->getComposer()->getPackage()->getExtra();
-        $symfonyBinDir = $options['symfony-bin-dir'];
+        $symfonyBinDir = $options['symfony-bin-dir'] ?? 'bin';
         $timeout = $event->getComposer()->getConfig()->get('process-timout');
 
         $php = ProcessExecutor::escape(self::getPhpExecutable());
