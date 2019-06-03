@@ -19,6 +19,8 @@ use Composer\Util\ProcessExecutor;
  * Runs assets compilation command in separate process.
  *
  * Code is adapted from {@see \Sensio\Bundle\DistributionBundle\Composer\ScriptHandler}.
+ *
+ * @todo Flex is no longer working with Script Handlers. Remove it.
  */
 class ScriptHandler
 {
