@@ -1,0 +1,5 @@
+services:
+  ezplatform.encore.command.compile_assets:
+      class: EzSystems\EzPlatformEncoreBundle\Command\CompileAssetsCommand
+      tags:
+          - { name: console.command }

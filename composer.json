@@ -15,12 +15,14 @@
         }
     },
     "require": {
-        "php": "^7.1",
-        "symfony/symfony": "^3.4"
+        "php": "^7.3",
+        "symfony/dependency-injection": "^4.3",
+        "symfony/filesystem": "^4.3",
+        "symfony/finder": "^4.3",
+        "symfony/http-kernel": "^4.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2.7.1",
-        "phpunit/phpunit": "^6.4"
+        "friendsofphp/php-cs-fixer": "^2.15"
     },
     "scripts": {
         "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
