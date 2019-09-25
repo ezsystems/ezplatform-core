@@ -11,6 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
+            "EzSystems\\EzPlatformCoreBundle\\": "src/EzPlatformCoreBundle/bundle/",
             "EzSystems\\EzPlatformEncoreBundle\\": "src/EzPlatformEncoreBundle/bundle/"
         }
     },
