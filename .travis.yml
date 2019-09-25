@@ -22,6 +22,13 @@ before_install:
 install:
     - travis_retry composer install --no-progress --no-interaction --no-suggest --prefer-dist
 
+matrix:
+    include:
+        - name: 'Code Style check'
+          php: '7.3'
+          script:
+              - composer fix-cs
+
 notifications:
     slack:
         rooms:
