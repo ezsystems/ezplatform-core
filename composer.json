@@ -15,6 +15,11 @@
             "EzSystems\\EzPlatformEncoreBundle\\": "src/EzPlatformEncoreBundle/bundle/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "EzSystems\\Tests\\EzPlatformCoreBundle\\": "tests/EzPlatformCoreBundle/bundle/"
+        }
+    },
     "require": {
         "php": "^7.1",
         "symfony/symfony": "^3.4"
