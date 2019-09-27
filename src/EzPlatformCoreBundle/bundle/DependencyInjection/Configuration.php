@@ -20,9 +20,12 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder(EzPlatformCoreExtension::EXTENSION_ALIAS);
+        $treeBuilder = new TreeBuilder();
 
-        $rootNode = $treeBuilder->getRootNode();
+        $rootNode = $treeBuilder->root(EzPlatformCoreExtension::EXTENSION_ALIAS);
+
+        // @todo define actual configuration (move from EzPublishCoreBundle)
+        $rootNode->variablePrototype();
 
         return $treeBuilder;
     }
