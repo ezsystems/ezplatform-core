@@ -28,6 +28,10 @@ matrix:
           php: '7.3'
           script:
               - composer fix-cs
+        - name: 'Unit tests'
+          php: '7.3'
+          script:
+              - composer test
 
 notifications:
     slack:
