@@ -11,7 +11,13 @@
     ],
     "autoload": {
         "psr-4": {
+            "EzSystems\\EzPlatformCoreBundle\\": "src/EzPlatformCoreBundle/bundle/",
             "EzSystems\\EzPlatformEncoreBundle\\": "src/EzPlatformEncoreBundle/bundle/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EzSystems\\Tests\\EzPlatformCoreBundle\\": "tests/EzPlatformCoreBundle/bundle/"
         }
     },
     "require": {
@@ -20,9 +26,10 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
-        "phpunit/phpunit": "^6.4"
+        "phpunit/phpunit": "^8.3.5"
     },
     "scripts": {
+        "test": "phpunit -v -c phpunit.xml",
         "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
     },
     "extra": {
