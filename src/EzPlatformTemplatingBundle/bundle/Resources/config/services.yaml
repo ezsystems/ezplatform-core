@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+
+    EzSystems\EzPlatformTemplatingBundle\Templating\Twig\ContextAwareTwigVariablesExtension:
+        arguments:
+            $configResolver: "@ezpublish.config.resolver"
+        tags:
+            - { name: twig.extension }
+
+    EzSystems\EzPlatformTemplating\Core\EventListener\ContentViewSubscriber: ~
+
+    EzSystems\EzPlatformTemplating\Core\View\ParameterProviderRegistry:
+        arguments:
+            $twigVariableProviders: !tagged ezplatform.view.parameter_provider
+
+    EzSystems\EzPlatformTemplating\SPI\View\ParameterProviderRegistry: '@EzSystems\EzPlatformTemplating\Core\View\ParameterProviderRegistry'

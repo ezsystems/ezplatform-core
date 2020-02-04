@@ -10,7 +10,13 @@
   <php>
     <ini name="error_reporting" value="-1" />
   </php>
-  <testsuite name="EzPlatformCoreBundle">
-    <directory>tests/EzPlatformCoreBundle/bundle</directory>
-  </testsuite>
+  <testsuites>
+    <testsuite name="EzPlatformCoreBundle">
+      <directory>tests/EzPlatformCoreBundle/bundle</directory>
+    </testsuite>
+    <testsuite name="EzPlatformTemplatingBundle">
+      <directory>tests/EzPlatformTemplatingBundle/bundle</directory>
+      <directory>tests/EzPlatformTemplatingBundle/lib</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
