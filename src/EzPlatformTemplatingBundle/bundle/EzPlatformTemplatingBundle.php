@@ -19,7 +19,7 @@ class EzPlatformTemplatingBundle extends Bundle
         parent::build($container);
 
         /** @var \eZ\Bundle\EzPublishCoreBundle\DependencyInjection\EzPublishCoreExtension $kernelExtension */
-        $kernelExtension = $container->getExtension('ezpublish');
+        $kernelExtension = $container->getExtension('ezplatform');
 
         $configParsers = $this->getConfigParsers();
         array_walk($configParsers, [$kernelExtension, 'addConfigParser']);
