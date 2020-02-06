@@ -10,9 +10,7 @@ namespace EzSystems\Tests\EzPlatformTemplating\EventListener;
 
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
-use eZ\Publish\Core\MVC\Symfony\View\View;
 use EzSystems\EzPlatformTemplating\Core\EventListener\ContentViewSubscriber;
-use EzSystems\EzPlatformTemplating\SPI\View\VariableProvider;
 use EzSystems\Tests\EzPlatformTemplating\BaseTemplatingTest;
 
 final class ContentViewSubscriberTest extends BaseTemplatingTest
@@ -48,7 +46,7 @@ final class ContentViewSubscriberTest extends BaseTemplatingTest
 
         $view->method('getConfigHash')
             ->willReturn([
-                ContentViewSubscriber::TWIG_VARIABLES_KEY => [
+                ContentViewSubscriber::PARAMETERS_KEY => [
                     'param_1' => 'scalar_1',
                     'param_2' => 2,
                     'param_3' => 3,
@@ -75,7 +73,7 @@ final class ContentViewSubscriberTest extends BaseTemplatingTest
 
         $view->method('getConfigHash')
             ->willReturn([
-                ContentViewSubscriber::TWIG_VARIABLES_KEY => [
+                ContentViewSubscriber::PARAMETERS_KEY => [
                     'param_1' => 'scalar_1',
                 ],
             ]);
@@ -112,10 +110,8 @@ final class ContentViewSubscriberTest extends BaseTemplatingTest
 
         $view->method('getConfigHash')
             ->willReturn([
-                ContentViewSubscriber::TWIG_VARIABLES_KEY => [
-                    'plus_42' => [
-                        '_expression' => 'parameters["random_number"] + 42',
-                    ],
+                ContentViewSubscriber::PARAMETERS_KEY => [
+                    'plus_42' => '@=parameters["random_number"] + 42',
                 ],
             ]);
 
@@ -131,22 +127,27 @@ final class ContentViewSubscriberTest extends BaseTemplatingTest
         $subscriber->onPreContentView($event);
     }
 
-    public function testWithProviderAndOptionsParam(): void
+    public function testWithNestedParamsAndExpressions(): void
     {
         $view = $this->getContentViewMock();
         $event = new PreContentViewEvent($view);
 
+        $someNumber = 123;
+
         $view->method('getParameters')
             ->willReturn([
-                'meaning_of_life' => 42,
+                'some_number' => $someNumber,
             ]);
 
         $view->method('getConfigHash')
             ->willReturn([
-                ContentViewSubscriber::TWIG_VARIABLES_KEY => [
-                    'provider_param' => [
-                        '_provider' => 'provider_with_options',
-                        'some_number' => 123,
+                ContentViewSubscriber::PARAMETERS_KEY => [
+                    'example' => [
+                        'plus_42' => '@=parameters["some_number"] + 42',
+                        'nested' => [
+                            'some' => 'variable',
+                            'minus_42' => '@=parameters["some_number"] - 42',
+                        ],
                     ],
                 ],
             ]);
@@ -155,32 +156,42 @@ final class ContentViewSubscriberTest extends BaseTemplatingTest
             ->expects($this->once())
             ->method('setParameters')
             ->with([
-                'meaning_of_life' => 42,
-                'provider_param' => [
-                    'result' => 165,
+                'some_number' => $someNumber,
+                'example' => [
+                    'plus_42' => $someNumber + 42,
+                    'nested' => [
+                        'some' => 'variable',
+                        'minus_42' => $someNumber - 42,
+                    ],
                 ],
             ]);
 
-        $subscriber = new ContentViewSubscriber(
-            $this->getRegistry([
-                new class() implements VariableProvider {
-                    public function getIdentifier(): string
-                    {
-                        return 'provider_with_options';
-                    }
+        $subscriber = $this->getContentViewMockSubscriber();
+        $subscriber->onPreContentView($event);
+    }
 
-                    public function getTwigVariables(
-                        View $view,
-                        array $options = []
-                    ): array {
-                        return [
-                            'result' => $view->getParameters()['meaning_of_life'] + $options['some_number'],
-                        ];
-                    }
-                },
-            ]),
-            $this->createMock(ConfigResolverInterface::class)
-        );
+    public function testWithProviderExpression()
+    {
+        $view = $this->getContentViewMock();
+        $event = new PreContentViewEvent($view);
+
+        $view->method('getParameters')->willReturn([]);
+
+        $view->method('getConfigHash')
+            ->willReturn([
+                ContentViewSubscriber::PARAMETERS_KEY => [
+                    'example' => '@=provider("test_provider").test_provider_parameter',
+                ],
+            ]);
+
+        $view
+            ->expects($this->once())
+            ->method('setParameters')
+            ->with([
+                'example' => 'test_provider_value',
+            ]);
+
+        $subscriber = $this->getContentViewMockSubscriber();
         $subscriber->onPreContentView($event);
     }
 }

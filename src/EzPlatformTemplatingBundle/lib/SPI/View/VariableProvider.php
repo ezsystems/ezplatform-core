@@ -14,5 +14,5 @@ interface VariableProvider
 {
     public function getIdentifier(): string;
 
-    public function getTwigVariables(View $view, array $options = []): array;
+    public function getTwigVariables(View $view, array $options = []): object;
 }

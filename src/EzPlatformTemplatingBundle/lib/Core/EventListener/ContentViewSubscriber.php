@@ -11,16 +11,16 @@ namespace EzSystems\EzPlatformTemplating\Core\EventListener;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
+use eZ\Publish\Core\MVC\Symfony\View\View;
 use EzSystems\EzPlatformTemplating\SPI\View\VariableProviderRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ContentViewSubscriber implements EventSubscriberInterface
 {
-    public const TWIG_VARIABLES_KEY = 'twig_variables';
+    private const EXPRESSION_INDICATOR = '@=';
 
-    private const PARAMETER_EXPRESSION_KEY = '_expression';
-    private const PARAMETER_PROVIDER_KEY = '_provider';
+    public const PARAMETERS_KEY = 'params';
 
     /** @var \EzSystems\EzPlatformTemplating\SPI\View\VariableProviderRegistry */
     private $parameterProviderRegistry;
@@ -37,7 +37,20 @@ final class ContentViewSubscriber implements EventSubscriberInterface
     ) {
         $this->parameterProviderRegistry = $parameterProviderRegistry;
         $this->configResolver = $configResolver;
+
         $this->expressionLanguage = new ExpressionLanguage();
+        $this->expressionLanguage->register(
+            'provider',
+            function (string $identifier) {
+                return 'Not implemented: Not a Dependency Injection expression';
+            },
+            function (array $variables, string $identifier) {
+                /** @var \EzSystems\EzPlatformTemplating\SPI\View\VariableProvider $provider */
+                $provider = $variables['providerRegistry']->getTwigVariableProvider($identifier);
+
+                return $provider->getTwigVariables($variables['view'], $variables);
+            }
+        );
     }
 
     public static function getSubscribedEvents(): array
@@ -50,35 +63,40 @@ final class ContentViewSubscriber implements EventSubscriberInterface
     public function onPreContentView(PreContentViewEvent $event): void
     {
         $view = $event->getContentView();
-        $twigVariables = $view->getConfigHash()[self::TWIG_VARIABLES_KEY] ?? [];
+        $twigVariables = $view->getConfigHash()[self::PARAMETERS_KEY] ?? [];
 
         foreach ($twigVariables as $name => &$twigVariable) {
-            if ($this->isExpressionParameter($twigVariable)) {
-                $twigVariable = $this->expressionLanguage->evaluate($twigVariable[self::PARAMETER_EXPRESSION_KEY], [
-                    'view' => $view,
-                    'parameters' => $view->getParameters(),
-                    'content' => $view->getContent(),
-                    'location' => $view->getLocation(),
-                    'config' => $this->configResolver,
-                ]);
-            } elseif ($this->isProviderParameter($twigVariable)) {
-                $provider = $this->parameterProviderRegistry->getTwigVariableProvider($twigVariable[self::PARAMETER_PROVIDER_KEY]);
-                $twigVariable = $provider->getTwigVariables($view, $twigVariable ?? []);
-            }
+            $this->recursiveParameterProcessor($twigVariable, $view);
         }
 
         $view->setParameters(array_replace($view->getParameters() ?? [], $twigVariables));
     }
 
-    private function isExpressionParameter($twigVariable): bool
+    private function recursiveParameterProcessor(&$twigVariable, View $view): void
     {
-        return !empty($twigVariable[self::PARAMETER_EXPRESSION_KEY])
-            && \is_string($twigVariable[self::PARAMETER_EXPRESSION_KEY]);
+        if ($this->isExpressionParameter($twigVariable)) {
+            $twigVariable = $this->expressionLanguage->evaluate($this->getExpression($twigVariable), [
+                'view' => $view,
+                'parameters' => $view->getParameters(),
+                'content' => $view->getContent(),
+                'location' => $view->getLocation(),
+                'config' => $this->configResolver,
+                'providerRegistry' => $this->parameterProviderRegistry,
+            ]);
+        } else if (is_array($twigVariable)) {
+            foreach ($twigVariable as &$nestedTwigVariable) {
+                $this->recursiveParameterProcessor($nestedTwigVariable, $view);
+            }
+        }
     }
 
-    private function isProviderParameter($twigVariable): bool
+    private function isExpressionParameter($twigVariable): bool
     {
-        return !empty($twigVariable[self::PARAMETER_PROVIDER_KEY])
-            && $this->parameterProviderRegistry->hasTwigVariableProvider($twigVariable[self::PARAMETER_PROVIDER_KEY]);
+        return is_string($twigVariable) && strpos($twigVariable, self::EXPRESSION_INDICATOR) === 0;
+    }
+
+    private function getExpression(string $twigVariable): string
+    {
+        return substr($twigVariable, strlen(self::EXPRESSION_INDICATOR));
     }
 }
