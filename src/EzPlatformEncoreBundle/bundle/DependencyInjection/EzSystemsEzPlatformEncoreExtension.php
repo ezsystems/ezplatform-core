@@ -36,7 +36,7 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
         $loader->load('services.yaml');
 
         $bundlesMetadata = $container->getParameter('kernel.bundles_metadata');
-        $rootPath = \dirname($container->getParameter('kernel.root_dir')) . '/';
+        $rootPath = $container->getParameter('kernel.project_dir') . '/';
         $targetPath = 'var/encore';
 
         foreach (self::CONFIG_NAMES as $configName) {
