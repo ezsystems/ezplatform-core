@@ -42,7 +42,7 @@ class CompileAssetsCommand extends Command
         }
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $timeout = $input->getOption('timeout');
         $env = $input->getOption('env');
@@ -55,7 +55,7 @@ class CompileAssetsCommand extends Command
 
         $debugFormatter = $this->getHelper('debug_formatter');
 
-        $process = new Process(
+        $process = Process::fromShellCommandline(
             $yarnEncoreCommand,
             null,
             null,
@@ -85,5 +85,7 @@ class CompileAssetsCommand extends Command
                 $process->isSuccessful()
             )
         );
+
+        return $process->getExitCode();
     }
 }
