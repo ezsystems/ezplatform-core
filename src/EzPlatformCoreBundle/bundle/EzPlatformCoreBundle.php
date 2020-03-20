@@ -14,6 +14,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class EzPlatformCoreBundle extends Bundle
 {
+    /**
+     * eZ Platform Version.
+     */
+    public const VERSION = '3.0.0';
+
     public function getContainerExtension(): ExtensionInterface
     {
         return new EzPlatformCoreExtension();
