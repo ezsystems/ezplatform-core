@@ -17,7 +17,7 @@ final class EzPlatformCoreBundle extends Bundle
     /**
      * eZ Platform Version.
      */
-    public const VERSION = '3.1.3';
+    public const VERSION = '3.1.4';
 
     public function getContainerExtension(): ExtensionInterface
     {
