@@ -78,6 +78,15 @@ class CompileAssetsCommand extends ContainerAwareCommand
             );
         });
 
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException(sprintf(
+                "An error occurred when executing the \"%s\" command:\n\n%s\n",
+                self::COMMAND_NAME,
+                $process->getOutput(),
+                $process->getErrorOutput())
+            );
+        }
+
         $output->writeln(
             $debugFormatter->stop(
                 spl_object_hash($process),
