@@ -80,8 +80,8 @@ class CompileAssetsCommand extends ContainerAwareCommand
 
         if (!$process->isSuccessful()) {
             throw new RuntimeException(sprintf(
-                "An error occurred when executing the \"%s\" command:\n\n%s\n",
-                self::COMMAND_NAME,
+                "An error occurred when executing the \"%s\" command:\n\n%s\n\n%s",
+                $yarnEncoreCommand,
                 $process->getOutput(),
                 $process->getErrorOutput())
             );
