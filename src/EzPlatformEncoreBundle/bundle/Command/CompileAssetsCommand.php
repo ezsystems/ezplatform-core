@@ -78,6 +78,15 @@ class CompileAssetsCommand extends Command
             );
         });
 
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException(sprintf(
+                "An error occurred when executing the \"%s\" command:\n\n%s\n\n%s",
+                $yarnEncoreCommand,
+                $process->getOutput(),
+                $process->getErrorOutput())
+            );
+        }
+
         $output->writeln(
             $debugFormatter->stop(
                 spl_object_hash($process),
