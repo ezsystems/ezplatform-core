@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace EzSystems\EzPlatformEncoreBundle\Command;
 
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
