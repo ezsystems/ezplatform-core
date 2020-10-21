@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Platform\Bundle\Assets\Twig\Extension;
 
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Symfony\Component\Asset\PackageInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -17,9 +18,15 @@ class IconSetExtension extends AbstractExtension
     /** @var \eZ\Publish\Core\MVC\ConfigResolverInterface */
     private $configResolver;
 
-    public function __construct(ConfigResolverInterface $configResolver)
-    {
+    /** @var \Symfony\Component\Asset\PackageInterface */
+    private $package;
+
+    public function __construct(
+        ConfigResolverInterface $configResolver,
+        PackageInterface $package
+    ) {
         $this->configResolver = $configResolver;
+        $this->package = $package;
     }
 
     public function getFunctions(): array
@@ -40,6 +47,6 @@ class IconSetExtension extends AbstractExtension
         $iconSetName = $set ?? $this->configResolver->getParameter('assets.default_icon_set');
         $iconSets = $this->configResolver->getParameter('assets.icon_sets');
 
-        return sprintf('%s#%s', $iconSets[$iconSetName], $icon);
+        return sprintf('%s#%s', $this->package->getUrl($iconSets[$iconSetName]), $icon);
     }
 }
