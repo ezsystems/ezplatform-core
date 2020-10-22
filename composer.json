@@ -12,7 +12,8 @@
     "autoload": {
         "psr-4": {
             "EzSystems\\EzPlatformCoreBundle\\": "src/EzPlatformCoreBundle/bundle/",
-            "EzSystems\\EzPlatformEncoreBundle\\": "src/EzPlatformEncoreBundle/bundle/"
+            "EzSystems\\EzPlatformEncoreBundle\\": "src/EzPlatformEncoreBundle/bundle/",
+            "Ibexa\\Platform\\Bundle\\Assets\\": "src/IbexaPlatformAssetsBundle/bundle/"
         }
     },
     "autoload-dev": {
@@ -22,6 +23,8 @@
     },
     "require": {
         "php": "^7.3",
+        "ezsystems/ezplatform-kernel": "^1.2@dev",
+        "symfony/asset": "^5.0",
         "symfony/config": "^5.0",
         "symfony/dependency-injection": "^5.0",
         "symfony/filesystem": "^5.0",

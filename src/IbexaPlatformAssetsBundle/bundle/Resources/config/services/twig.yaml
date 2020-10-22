@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+
+    Ibexa\Platform\Bundle\Assets\Twig\Extension\IconSetExtension: ~

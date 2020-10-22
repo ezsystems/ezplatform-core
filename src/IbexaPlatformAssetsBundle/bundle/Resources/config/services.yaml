@@ -1,0 +1,7 @@
+imports:
+    - { resource: services/twig.yaml }
+
+##
+## Keep this file empty.
+## For better organization put your services grouped in services/ directory.
+##
