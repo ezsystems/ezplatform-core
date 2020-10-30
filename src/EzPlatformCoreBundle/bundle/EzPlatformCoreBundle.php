@@ -15,9 +15,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 final class EzPlatformCoreBundle extends Bundle
 {
     /**
-     * eZ Platform Version.
+     * Ibexa DXP Version.
      */
-    public const VERSION = '3.2.0';
+    public const VERSION = '3.3.0';
 
     public function getContainerExtension(): ExtensionInterface
     {
