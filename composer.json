@@ -14,7 +14,6 @@
             "EzSystems\\EzPlatformCoreBundle\\": "src/EzPlatformCoreBundle/bundle/",
             "EzSystems\\EzPlatformEncoreBundle\\": "src/EzPlatformEncoreBundle/bundle/",
             "Ibexa\\Platform\\Bundle\\Assets\\": "src/IbexaPlatformAssetsBundle/bundle/",
-            "Ibexa\\Platform\\Assets\\": "src/IbexaPlatformAssetsBundle/lib/"
         }
     },
     "autoload-dev": {

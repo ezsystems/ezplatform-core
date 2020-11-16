@@ -1,5 +1,4 @@
 imports:
-    - { resource: services/events.yaml }
     - { resource: services/twig.yaml }
 
 ##
