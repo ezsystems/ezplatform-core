@@ -8,25 +8,18 @@ declare(strict_types=1);
 
 namespace Ibexa\Platform\Bundle\Assets\Twig\Extension;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use Symfony\Component\Asset\Packages;
+use Ibexa\Platform\Assets\Resolver\IconPathResolverInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class IconSetExtension extends AbstractExtension
 {
-    /** @var \eZ\Publish\Core\MVC\ConfigResolverInterface */
-    private $configResolver;
+    /** @var \Ibexa\Platform\Assets\Resolver\IconPathResolverInterface */
+    private $iconPathResolver;
 
-    /** @var \Symfony\Component\Asset\Packages */
-    private $packages;
-
-    public function __construct(
-        ConfigResolverInterface $configResolver,
-        Packages $packages
-    ) {
-        $this->configResolver = $configResolver;
-        $this->packages = $packages;
+    public function __construct(IconPathResolverInterface $iconPathResolver)
+    {
+        $this->iconPathResolver = $iconPathResolver;
     }
 
     public function getFunctions(): array
@@ -44,9 +37,6 @@ class IconSetExtension extends AbstractExtension
 
     public function getIconPath(string $icon, string $set = null): string
     {
-        $iconSetName = $set ?? $this->configResolver->getParameter('assets.default_icon_set');
-        $iconSets = $this->configResolver->getParameter('assets.icon_sets');
-
-        return sprintf('%s#%s', $this->packages->getUrl($iconSets[$iconSetName]), $icon);
+        return $this->iconPathResolver->resolve($icon, $set);
     }
 }
