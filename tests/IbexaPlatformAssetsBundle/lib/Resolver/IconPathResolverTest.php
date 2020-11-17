@@ -30,16 +30,16 @@ final class IconPathResolverTest extends TestCase
     }
 
     /**
-     * @dataProvider testResolveDataProvider
+     * @dataProvider resolveDataProvider
      */
     public function testResolve(string $icon, ?string $set, string $expectedPath): void
     {
-        $iconPathResolver = new IconPathResolver($this->configRes, $packages);
+        $iconPathResolver = new IconPathResolver($this->configResolver, $this->packages);
 
         self::assertEquals($expectedPath, $iconPathResolver->resolve($icon, $set));
     }
 
-    public function testResolveDataProvider()
+    public function resolveDataProvider()
     {
         return [
             [
