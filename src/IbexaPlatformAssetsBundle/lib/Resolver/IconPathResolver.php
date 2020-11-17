@@ -30,7 +30,7 @@ final class IconPathResolver implements IconPathResolverInterface
         $this->packages = $packages;
     }
 
-    public function resolve(string $icon, string $set = null): string
+    public function resolve(string $icon, ?string $set = null): string
     {
         $iconSetName = $set ?? $this->configResolver->getParameter('assets.default_icon_set');
         $iconSets = $this->configResolver->getParameter('assets.icon_sets');
