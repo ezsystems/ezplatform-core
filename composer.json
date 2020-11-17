@@ -19,7 +19,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "EzSystems\\Tests\\EzPlatformCoreBundle\\": "tests/EzPlatformCoreBundle/bundle/"
+            "EzSystems\\Tests\\EzPlatformCoreBundle\\": "tests/EzPlatformCoreBundle/bundle/",
+            "Ibexa\\Platform\\Tests\\Assets\\": "tests/IbexaPlatformAssetsBundle/lib/"
         }
     },
     "require": {
