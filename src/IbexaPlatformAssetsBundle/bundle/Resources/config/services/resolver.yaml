@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autoconfigure: true
+        autowire: true
+        public: false
+
+    Ibexa\Platform\Assets\Resolver\IconPathResolver: ~
+
+    Ibexa\Platform\Assets\Resolver\IconPathResolverInterface: '@Ibexa\Platform\Assets\Resolver\IconPathResolver'

@@ -1,4 +1,5 @@
 imports:
+    - { resource: services/resolver.yaml }
     - { resource: services/twig.yaml }
 
 ##
