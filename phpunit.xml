@@ -6,11 +6,18 @@
   convertWarningsToExceptions="true"
   beStrictAboutTestsThatDoNotTestAnything="true"
   colors="true"
+  bootstrap="vendor/autoload.php"
 >
   <php>
     <ini name="error_reporting" value="-1" />
   </php>
-  <testsuite name="EzPlatformCoreBundle">
-    <directory>tests/EzPlatformCoreBundle/bundle</directory>
-  </testsuite>
+  <testsuites>
+    <testsuite name="EzPlatformCoreBundle">
+      <directory>tests/EzPlatformCoreBundle/bundle</directory>
+    </testsuite>
+    <testsuite name="IbexaPlatformAssetsBundle">
+      <directory>tests/IbexaPlatformAssetsBundle/bundle</directory>
+      <directory>tests/IbexaPlatformAssetsBundle/lib</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
