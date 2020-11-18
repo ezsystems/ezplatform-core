@@ -39,7 +39,7 @@ final class IconPathResolverTest extends TestCase
         self::assertEquals($expectedPath, $iconPathResolver->resolve($icon, $set));
     }
 
-    public function resolveDataProvider()
+    public function resolveDataProvider(): array
     {
         return [
             [
