@@ -107,6 +107,8 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
 
     private function configurePlatformShSetup(ContainerBuilder $container): void
     {
+        $projectDir = $container->getParameter('kernel.project_dir');
+
         // Run for all hooks, incl build step
         if ($_SERVER['PLATFORM_PROJECT_ENTROPY'] ?? false) {
             // Disable PHPStormPass as we don't have write access & it's not localhost
@@ -126,7 +128,7 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
         // PLATFORMSH_DFS_NFS_PATH is different compared to DFS_NFS_PATH in the sense that it is relative to ezplatform dir
         // DFS_NFS_PATH is an absolute path
         if ($dfsNfsPath = $_SERVER['PLATFORMSH_DFS_NFS_PATH'] ?? false) {
-            $container->setParameter('dfs_nfs_path', sprintf('%s/%s', $container->getParameter('kernel.project_dir'), $dfsNfsPath));
+            $container->setParameter('dfs_nfs_path', sprintf('%s/%s', $projectDir, $dfsNfsPath));
 
             // Map common parameters
             $container->setParameter('dfs_database_charset', $container->getParameter('database_charset'));
@@ -159,7 +161,7 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
                 $container->setParameter('dfs_database_driver', $container->getParameter('database_driver'));
             }
 
-            $loader = new Loader\YamlFileLoader($container, new FileLocator(\dirname(__DIR__) . '/dfs'));
+            $loader = new Loader\YamlFileLoader($container, new FileLocator($projectDir . '/config/packages/dfs'));
             $loader->load('dfs.yaml');
         }
         // Use Redis-based caching if possible.
@@ -169,7 +171,7 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
                     continue;
                 }
 
-                $loader = new Loader\YamlFileLoader($container, new FileLocator(\dirname(__DIR__) . '/cache_pool'));
+                $loader = new Loader\YamlFileLoader($container, new FileLocator($projectDir . '/config/packages/cache_pool'));
                 $loader->load('cache.redis.yaml');
 
                 $container->setParameter('cache_pool', 'cache.redis');
@@ -187,7 +189,7 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
                 $container->setParameter('cache_pool', 'cache.memcached');
                 $container->setParameter('cache_dsn', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
 
-                $loader = new Loader\YamlFileLoader($container, new FileLocator(\dirname(__DIR__) . '/cache_pool'));
+                $loader = new Loader\YamlFileLoader($container, new FileLocator($projectDir . '/config/packages/cache_pool'));
                 $loader->load('cache.memcached.yaml');
             }
         }
