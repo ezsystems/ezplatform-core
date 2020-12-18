@@ -21,8 +21,6 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $this->configureGenericSetup($container);
-        $this->configurePlatformShSetup($container);
     }
 
     public function getConfiguration(
@@ -37,16 +35,16 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
         return self::EXTENSION_ALIAS;
     }
 
-    /**
-     * Prepend "ezplatform" configuration to "ezpublish" configuration.
-     *
-     * @todo remove once we replace EzPublishCoreBundle with EzPlatformCoreBundle
-     */
     public function prepend(ContainerBuilder $container): void
     {
+        $this->configureGenericSetup($container);
+        $this->configurePlatformShSetup($container);
+
+
         // inject "ezplatform" extension settings into "ezpublish" extension
         // configuration here is zero-based array of configurations from multiple sources
         // to be merged by "ezpublish" extension
+        // @todo remove once we replace EzPublishCoreBundle with EzPlatformCoreBundle
         foreach ($container->getExtensionConfig('ezplatform') as $eZPlatformConfig) {
             $container->prependExtensionConfig('ezpublish', $eZPlatformConfig);
         }
