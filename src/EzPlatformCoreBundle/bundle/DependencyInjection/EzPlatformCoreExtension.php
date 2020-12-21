@@ -53,7 +53,22 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
     {
         $projectDir = $container->getParameter('kernel.project_dir');
 
-        if ($_SERVER['DFS_NFS_PATH'] ?? false) {
+        if ($dfsNfsPath = $_SERVER['DFS_NFS_PATH'] ?? false) {
+            $container->setParameter('dfs_nfs_path', $dfsNfsPath);
+
+            $parameterMap = [
+                'dfs_database_charset' => 'database_charset',
+                'dfs_database_driver' => 'database_driver',
+                'dfs_database_collation' => 'database_collation',
+            ];
+
+            foreach ($parameterMap as $dfsParameter => $platformParameter) {
+                $container->setParameter(
+                    $dfsParameter,
+                    $_SERVER[strtoupper($dfsParameter)] ?? $container->getParameter($platformParameter)
+                );
+            }
+
             $loader = new Loader\YamlFileLoader($container, new FileLocator($projectDir . '/config/packages/dfs'));
             $loader->load('dfs.yaml');
         }
