@@ -36,6 +36,9 @@ class GenericConfigPass implements CompilerPassInterface
         if ($purgeType = $_SERVER['HTTPCACHE_PURGE_TYPE'] ?? false) {
             $container->setParameter('purge_type', $purgeType);
             $container->setParameter('ezpublish.http_cache.purge_type', $purgeType);
+            if ($purgeType === 'fastly') {
+                $container->setParameter('purge_server', 'https://api.fastly.com');
+            }
         }
 
         if ($value = $_SERVER['MAILER_TRANSPORT'] ?? false) {
