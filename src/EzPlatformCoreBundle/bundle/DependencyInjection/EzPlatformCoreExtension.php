@@ -318,7 +318,7 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
             }
         }
 
-        if ($route !== null) {
+        if ($route !== null && !($_SERVER['PLATFORMSH_DISABLE_HTTPCACHE_PURGE'] ?? false)) {
             $purgeServer = rtrim($route, '/');
             if (($_SERVER['HTTPCACHE_USERNAME'] ?? false) && ($_SERVER['HTTPCACHE_PASSWORD'] ?? false)) {
                 $domain = parse_url($purgeServer, PHP_URL_HOST);
