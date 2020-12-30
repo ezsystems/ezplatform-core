@@ -1,0 +1,7 @@
+parameters:
+    ibexa.platform.io.nfs.adapter.config:
+        root: './'
+        path: '$var_dir$/$storage_dir$/'
+        writeFlags: ~
+        linkHandling: ~
+        permissions: [ ]
