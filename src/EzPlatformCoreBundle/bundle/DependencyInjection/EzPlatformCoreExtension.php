@@ -37,6 +37,12 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
 
     public function prepend(ContainerBuilder $container): void
     {
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__ . '/../Resources/config')
+        );
+        $loader->load('default_settings.yaml');
+
         $this->configureGenericSetup($container);
         $this->configurePlatformShSetup($container);
 
