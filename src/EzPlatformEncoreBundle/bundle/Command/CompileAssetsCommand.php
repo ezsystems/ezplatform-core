@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EzSystems\EzPlatformEncoreBundle\Command;
 
+use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -16,14 +17,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class CompileAssetsCommand extends Command
+class CompileAssetsCommand extends Command implements BackwardCompatibleCommand
 {
-    public const COMMAND_NAME = 'ezplatform:encore:compile';
+    public const COMMAND_NAME = 'ibexa:encore:compile';
 
     protected function configure(): void
     {
         $this
             ->setName(self::COMMAND_NAME)
+            ->setAliases(['ezplatform:encore:compile'])
             ->setDescription('Compiles all assets using WebPack Encore')
             ->addOption(
                 'timeout',
@@ -97,5 +99,13 @@ class CompileAssetsCommand extends Command
         );
 
         return $process->getExitCode();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeprecatedAliases(): array
+    {
+        return ['ezplatform:encore:compile'];
     }
 }
