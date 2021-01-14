@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpFoundation\Request;
 
 final class EzPlatformCoreExtension extends Extension implements PrependExtensionInterface
 {
@@ -148,8 +149,12 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
             $container->setParameter('ezplatform.session.save_path', $value);
         }
 
-        if (!$container->hasParameter('kernel.trusted_proxies') && $value = $_SERVER['TRUSTED_PROXIES'] ?? false) {
+        if (!$container->hasParameter('kernel.trusted_proxies')
+            && !$container->hasParameter('kernel.trusted_headers')
+            && $value = $_SERVER['TRUSTED_PROXIES'] ?? false
+        ) {
             $container->setParameter('kernel.trusted_proxies', $value);
+            $container->setParameter('kernel.trusted_headers', Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
         }
 
         if (!$container->hasParameter('kernel.trusted_hosts') && $value = $_SERVER['TRUSTED_HOSTS'] ?? false) {
