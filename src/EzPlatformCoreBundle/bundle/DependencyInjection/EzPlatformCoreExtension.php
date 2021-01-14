@@ -151,6 +151,10 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
         if (!$container->hasParameter('kernel.trusted_proxies') && $value = $_SERVER['TRUSTED_PROXIES'] ?? false) {
             $container->setParameter('kernel.trusted_proxies', $value);
         }
+
+        if (!$container->hasParameter('kernel.trusted_hosts') && $value = $_SERVER['TRUSTED_HOSTS'] ?? false) {
+            $container->setParameter('kernel.trusted_hosts', $value);
+        }
     }
 
     private function configurePlatformShSetup(ContainerBuilder $container): void
