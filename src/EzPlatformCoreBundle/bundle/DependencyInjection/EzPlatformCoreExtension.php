@@ -147,6 +147,10 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
         if ($value = $_SERVER['SESSION_SAVE_PATH'] ?? false) {
             $container->setParameter('ezplatform.session.save_path', $value);
         }
+
+        if (!$container->hasParameter('kernel.trusted_proxies') && $value = $_SERVER['TRUSTED_PROXIES'] ?? false) {
+            $container->setParameter('kernel.trusted_proxies', $value);
+        }
     }
 
     private function configurePlatformShSetup(ContainerBuilder $container): void
