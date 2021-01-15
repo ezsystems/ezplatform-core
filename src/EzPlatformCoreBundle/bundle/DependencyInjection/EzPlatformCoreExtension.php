@@ -149,6 +149,7 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
             $container->setParameter('ezplatform.session.save_path', $value);
         }
 
+        /** @Deprecated since 3.3, to be removed in 4.0, use symfony semantic configuration instead of ENVs */
         if (!$container->hasParameter('kernel.trusted_proxies')
             && !$container->hasParameter('kernel.trusted_headers')
             && $value = $_SERVER['TRUSTED_PROXIES'] ?? false
