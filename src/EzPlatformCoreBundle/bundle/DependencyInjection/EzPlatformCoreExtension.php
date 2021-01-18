@@ -98,6 +98,11 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
 
         $container->setParameter('solr_dsn', '%env(SOLR_DSN)%');
         $container->setParameter('solr_core', '%env(SOLR_CORE)%');
+        
+        $container->setParameter('siso_search.solr.host', '%env(SISO_SEARCH_SOLR_HOST)%');
+        $container->setParameter('siso_search.solr.port', '%env(SISO_SEARCH_SOLR_PORT)%');
+        $container->setParameter('siso_search.solr.core', '%env(SISO_SEARCH_SOLR_CORE)%');
+        $container->setParameter('siso_search.solr.path', '%env(SISO_SEARCH_SOLR_PATH)%');
 
         $projectDir = $container->getParameter('kernel.project_dir');
 
