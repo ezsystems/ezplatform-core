@@ -25,7 +25,7 @@
     },
     "require": {
         "php": "^7.3",
-        "ezsystems/ezplatform-kernel": "^1.3@dev",
+        "ezsystems/ezplatform-kernel": "^2.0dev",
         "symfony/asset": "^5.0",
         "symfony/config": "^5.0",
         "symfony/dependency-injection": "^5.0",
@@ -35,7 +35,8 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
-        "phpunit/phpunit": "^8.3.5"
+        "phpunit/phpunit": "^8.3.5",
+        "ezsystems/doctrine-dbal-schema": "^2.0@dev"
     },
     "scripts": {
         "test": "phpunit -v -c phpunit.xml",
@@ -43,7 +44,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.3.x-dev"
+            "dev-master": "3.0.x-dev"
         }
     }
 }
