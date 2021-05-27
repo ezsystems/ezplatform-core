@@ -30,6 +30,15 @@ class IconSetExtension extends AbstractExtension
                 [$this, 'getIconPath'],
                 [
                     'is_safe' => ['html'],
+                    'deprecated' => true,
+                    'alternative' => 'ibexa_icon_path',
+                ],
+            ),
+            new TwigFunction(
+                'ibexa_icon_path',
+                [$this, 'getIconPath'],
+                [
+                    'is_safe' => ['html'],
                 ]
             ),
         ];
