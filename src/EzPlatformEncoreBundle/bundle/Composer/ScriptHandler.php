@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace EzSystems\EzPlatformEncoreBundle\Composer;
 
 use Composer\Script\Event;
+use Composer\Util\ProcessExecutor;
 use EzSystems\EzPlatformEncoreBundle\Command\CompileAssetsCommand;
 use RuntimeException;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Composer\Util\ProcessExecutor;
+use Symfony\Component\Process\Process;
 
 /**
  * Runs assets compilation command in separate process.
@@ -22,9 +22,6 @@ use Composer\Util\ProcessExecutor;
  */
 class ScriptHandler
 {
-    /**
-     * @param \Composer\Script\Event $event
-     */
     public static function compileAssets(Event $event): void
     {
         $options = $event->getComposer()->getPackage()->getExtra();
@@ -44,17 +41,12 @@ class ScriptHandler
             null,
             $timeout
         );
-        $process->run(function ($type, $buffer) use ($event) {
+        $process->run(static function ($type, $buffer) use ($event) {
             $event->getIO()->write($buffer, false);
         });
 
         if (!$process->isSuccessful()) {
-            throw new RuntimeException(sprintf(
-                "An error occurred when executing the \"%s\" command:\n\n%s\n\n%s",
-                ProcessExecutor::escape(CompileAssetsCommand::COMMAND_NAME),
-                self::removeDecoration($process->getOutput()),
-                self::removeDecoration($process->getErrorOutput()))
-            );
+            throw new RuntimeException(sprintf("An error occurred when executing the \"%s\" command:\n\n%s\n\n%s", ProcessExecutor::escape(CompileAssetsCommand::COMMAND_NAME), self::removeDecoration($process->getOutput()), self::removeDecoration($process->getErrorOutput())));
         }
     }
 
