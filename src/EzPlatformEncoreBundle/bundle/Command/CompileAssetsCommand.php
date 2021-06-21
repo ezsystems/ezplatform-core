@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -71,7 +71,7 @@ class CompileAssetsCommand extends Command implements BackwardCompatibleCommand
             sprintf('Evaluating command <comment>%s</comment>', $yarnEncoreCommand)
         ));
 
-        $process->run(function ($type, $buffer) use ($output, $debugFormatter, $process) {
+        $process->run(static function ($type, $buffer) use ($output, $debugFormatter, $process) {
             $output->write(
                 $debugFormatter->progress(
                     spl_object_hash($process),
@@ -82,12 +82,7 @@ class CompileAssetsCommand extends Command implements BackwardCompatibleCommand
         });
 
         if (!$process->isSuccessful()) {
-            throw new RuntimeException(sprintf(
-                "An error occurred when executing the \"%s\" command:\n\n%s\n\n%s",
-                $yarnEncoreCommand,
-                $process->getOutput(),
-                $process->getErrorOutput())
-            );
+            throw new RuntimeException(sprintf("An error occurred when executing the \"%s\" command:\n\n%s\n\n%s", $yarnEncoreCommand, $process->getOutput(), $process->getErrorOutput()));
         }
 
         $output->writeln(

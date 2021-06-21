@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -98,7 +98,7 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
 
         $container->setParameter('solr_dsn', '%env(SOLR_DSN)%');
         $container->setParameter('solr_core', '%env(SOLR_CORE)%');
-        
+
         $container->setParameter('siso_search.solr.host', '%env(SISO_SEARCH_SOLR_HOST)%');
         $container->setParameter('siso_search.solr.port', '%env(SISO_SEARCH_SOLR_PORT)%');
         $container->setParameter('siso_search.solr.core', '%env(SISO_SEARCH_SOLR_CORE)%');

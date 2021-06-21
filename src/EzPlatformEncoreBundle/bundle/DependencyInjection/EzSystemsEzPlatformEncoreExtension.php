@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -48,10 +48,7 @@ class EzSystemsEzPlatformEncoreExtension extends Extension
      * Looks for Resources/encore/ files in every registered and enabled bundle.
      * Dumps json list of paths to files it finds.
      *
-     * @param string $configName
-     * @param string $rootPath
      * @param string $targetPath Where to put eZ Encore paths configuration file (default: var/encore)
-     * @param array $bundlesMetadata
      */
     public function dumpConfigurationPathsToFile(string $configName, string $rootPath, string $targetPath, array $bundlesMetadata): void
     {
