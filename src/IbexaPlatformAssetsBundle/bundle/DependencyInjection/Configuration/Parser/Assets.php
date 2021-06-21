@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (C) eZ Systems AS. All rights reserved.
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 declare(strict_types=1);
@@ -21,7 +21,7 @@ class Assets extends AbstractParser
         $nodeBuilder
             ->arrayNode(self::ASSETS_NODE)
                 ->validate()
-                    ->ifTrue(function (array $assetsConfig): bool {
+                    ->ifTrue(static function (array $assetsConfig): bool {
                         return !isset($assetsConfig['icon_sets'][$assetsConfig['default_icon_set']]);
                     })
                     ->thenInvalid("Default Icon Set is not defined in 'icon_sets' configuration.")
@@ -29,7 +29,7 @@ class Assets extends AbstractParser
                 ->children()
                     ->arrayNode('icon_sets')
                         ->validate()
-                            ->ifTrue(function (array $value): bool {
+                            ->ifTrue(static function (array $value): bool {
                                 foreach ($value as $set => $path) {
                                     $file = new \SplFileInfo($path);
 
