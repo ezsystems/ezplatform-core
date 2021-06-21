@@ -25,16 +25,21 @@
         "symfony/symfony": "^3.4"
     },
     "require-dev": {
+        "ezsystems/ezplatform-code-style": "^1.0@dev",
         "friendsofphp/php-cs-fixer": "^2.15",
         "phpunit/phpunit": "^8.3.5"
     },
     "scripts": {
         "test": "phpunit -v -c phpunit.xml",
-        "fix-cs": "@php ./vendor/bin/php-cs-fixer fix -v --show-progress=estimating"
+        "fix-cs": "php-cs-fixer fix -v --show-progress=estimating",
+        "check-cs": "php-cs-fixer fix -v --diff --dry-run --show-progress=estimating"
     },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
