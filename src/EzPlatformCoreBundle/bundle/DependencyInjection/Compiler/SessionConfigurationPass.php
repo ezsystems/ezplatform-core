@@ -18,8 +18,10 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * This ensures parameters have the highest priority and the configuration
  * will be respected with default framework.yaml file.
+ *
+ * @internal
  */
-class SessionConfigurationPass implements CompilerPassInterface
+final class SessionConfigurationPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -42,7 +44,7 @@ class SessionConfigurationPass implements CompilerPassInterface
                 $container->getDefinition('session.abstract_handler')
                     ->replaceArgument(
                         0,
-                        $container->hasDefinition($id)
+                        $container->has($id)
                             ? new Reference($id)
                             : $handlerId
                     );
