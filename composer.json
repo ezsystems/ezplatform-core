@@ -37,7 +37,8 @@
         "ezsystems/ezplatform-code-style": "^1.0@dev",
         "friendsofphp/php-cs-fixer": "^2.15",
         "phpunit/phpunit": "^8.3.5",
-        "ezsystems/doctrine-dbal-schema": "^2.0@dev"
+        "ezsystems/doctrine-dbal-schema": "^2.0@dev",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.2"
     },
     "scripts": {
         "test": "phpunit -v -c phpunit.xml",
