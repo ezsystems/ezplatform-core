@@ -12,6 +12,7 @@ use EzSystems\EzPlatformCoreBundle\DependencyInjection\Compiler\SessionConfigura
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\SessionHandlerFactory;
 
@@ -24,6 +25,14 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
 
     public function testCompile(): void
     {
+        $this->container->setDefinition(
+            'session.storage.native',
+            (new Definition())->setArguments([null, null, null])
+        );
+        $this->container->setDefinition(
+            'session.storage.php_bridge',
+            (new Definition())->setArguments([null, null])
+        );
         $this->container->setParameter('ezplatform.session.handler_id', 'my_handler');
         $this->container->setParameter('ezplatform.session.save_path', 'my_save_path');
 
@@ -31,6 +40,16 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
 
         $this->assertContainerBuilderHasAlias('session.handler', 'my_handler');
         $this->assertContainerBuilderHasParameter('session.save_path', 'my_save_path');
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'session.storage.native',
+            1,
+            new Reference('session.handler')
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'session.storage.php_bridge',
+            0,
+            new Reference('session.handler')
+        );
     }
 
     public function testCompileWithDsn(): void
@@ -43,6 +62,14 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
 
         $this->container->setDefinition('session.abstract_handler', $definition);
         $this->container->setParameter('ezplatform.session.handler_id', $dsn);
+        $this->container->setDefinition(
+            'session.storage.native',
+            (new Definition())->setArguments([null, null, null])
+        );
+        $this->container->setDefinition(
+            'session.storage.php_bridge',
+            (new Definition())->setArguments([null, null])
+        );
 
         $this->compile();
 

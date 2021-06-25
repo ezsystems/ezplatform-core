@@ -53,6 +53,13 @@ final class SessionConfigurationPass implements CompilerPassInterface
             } else {
                 $container->setAlias('session.handler', $handlerId);
             }
+
+            $container
+                ->getDefinition('session.storage.native')
+                ->replaceArgument(1, new Reference('session.handler'));
+            $container
+                ->getDefinition('session.storage.php_bridge')
+                ->replaceArgument(0, new Reference('session.handler'));
         }
 
         if (null !== $savePath) {
