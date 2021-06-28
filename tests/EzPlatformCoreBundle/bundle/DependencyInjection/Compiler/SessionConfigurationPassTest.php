@@ -23,6 +23,20 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new SessionConfigurationPass());
     }
 
+    public function testCompilesWithoutStorageDefinitions(): void
+    {
+        $this->container->setParameter('ezplatform.session.handler_id', 'my_handler');
+        $this->container->setParameter('ezplatform.session.save_path', 'my_save_path');
+
+        $this->compile();
+
+        $this->assertContainerBuilderHasAlias('session.handler', 'my_handler');
+        $this->assertContainerBuilderHasParameter('session.save_path', 'my_save_path');
+
+        $this->assertContainerBuilderNotHasService('session.storage.native');
+        $this->assertContainerBuilderNotHasService('session.storage.php_bridge');
+    }
+
     public function testCompile(): void
     {
         $this->container->setDefinition(
