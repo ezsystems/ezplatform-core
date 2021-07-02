@@ -25,19 +25,40 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
 
     public function testCompilesWithoutStorageDefinitions(): void
     {
-        $this->container->setParameter('ezplatform.session.handler_id', 'my_handler');
-        $this->container->setParameter('ezplatform.session.save_path', 'my_save_path');
-
-        $this->compile();
-
-        $this->assertContainerBuilderHasAlias('session.handler', 'my_handler');
-        $this->assertContainerBuilderHasParameter('session.save_path', 'my_save_path');
+        $this->doCompile();
 
         $this->assertContainerBuilderNotHasService('session.storage.native');
         $this->assertContainerBuilderNotHasService('session.storage.php_bridge');
+        $this->assertContainerBuilderNotHasService('session.storage.factory.native');
+        $this->assertContainerBuilderNotHasService('session.storage.factory.php_bridge');
     }
 
-    public function testCompile(): void
+    public function testCompileUsingStorageFactory(): void
+    {
+        $this->container->setDefinition(
+            'session.storage.factory.native',
+            (new Definition())->setArguments([null, null, null])
+        );
+        $this->container->setDefinition(
+            'session.storage.factory.php_bridge',
+            (new Definition())->setArguments([null, null])
+        );
+
+        $this->doCompile();
+
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'session.storage.factory.native',
+            1,
+            new Reference('session.handler')
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'session.storage.factory.php_bridge',
+            0,
+            new Reference('session.handler')
+        );
+    }
+
+    public function testCompileUsingStorage(): void
     {
         $this->container->setDefinition(
             'session.storage.native',
@@ -47,13 +68,9 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
             'session.storage.php_bridge',
             (new Definition())->setArguments([null, null])
         );
-        $this->container->setParameter('ezplatform.session.handler_id', 'my_handler');
-        $this->container->setParameter('ezplatform.session.save_path', 'my_save_path');
 
-        $this->compile();
+        $this->doCompile();
 
-        $this->assertContainerBuilderHasAlias('session.handler', 'my_handler');
-        $this->assertContainerBuilderHasParameter('session.save_path', 'my_save_path');
         $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'session.storage.native',
             1,
@@ -64,6 +81,17 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
             0,
             new Reference('session.handler')
         );
+    }
+
+    private function doCompile(): void
+    {
+        $this->container->setParameter('ezplatform.session.handler_id', 'my_handler');
+        $this->container->setParameter('ezplatform.session.save_path', 'my_save_path');
+
+        $this->compile();
+
+        $this->assertContainerBuilderHasAlias('session.handler', 'my_handler');
+        $this->assertContainerBuilderHasParameter('session.save_path', 'my_save_path');
     }
 
     public function testCompileWithDsn(): void
