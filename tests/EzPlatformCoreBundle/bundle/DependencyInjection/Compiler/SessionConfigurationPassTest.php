@@ -25,12 +25,12 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
 
     public function testCompilesWithoutStorageDefinitions(): void
     {
-        $this->doCompile();
-
         $this->assertContainerBuilderNotHasService('session.storage.native');
         $this->assertContainerBuilderNotHasService('session.storage.php_bridge');
         $this->assertContainerBuilderNotHasService('session.storage.factory.native');
         $this->assertContainerBuilderNotHasService('session.storage.factory.php_bridge');
+
+        $this->doCompile();
     }
 
     public function testCompileUsingStorageFactory(): void
