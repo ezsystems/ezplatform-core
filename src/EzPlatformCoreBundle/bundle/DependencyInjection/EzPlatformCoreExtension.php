@@ -209,12 +209,12 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
                     $container->setParameter(
                         'dfs_database_url',
                         sprintf(
-                            '%s://%s:%s:%d@%s/%s',
+                            '%s://%s:%s@%s:%d/%s',
                             $endpoint['scheme'],
                             $endpoint['username'],
                             $endpoint['password'],
-                            $endpoint['port'],
                             $endpoint['host'],
+                            $endpoint['port'],
                             $endpoint['path']
                         )
                     );
