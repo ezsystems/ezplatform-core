@@ -172,12 +172,6 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
     {
         $projectDir = $container->getParameter('kernel.project_dir');
 
-        // Run for all hooks, incl build step
-        if ($_SERVER['PLATFORM_PROJECT_ENTROPY'] ?? false) {
-            // Disable PHPStormPass as we don't have write access & it's not localhost
-            $container->setParameter('ezdesign.phpstorm.enabled', false);
-        }
-
         // Will not be executed on build step
         $relationships = $_SERVER['PLATFORM_RELATIONSHIPS'] ?? false;
         if (!$relationships) {
