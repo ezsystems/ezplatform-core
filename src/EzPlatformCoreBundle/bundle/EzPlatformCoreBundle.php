@@ -18,6 +18,9 @@ final class EzPlatformCoreBundle extends Bundle
 {
     /**
      * Ibexa DXP Version.
+     *
+     * @deprecated since Ibexa 4.0, use {@see \Ibexa\Contracts\Core\Ibexa::VERSION} from
+     * <code>ibexa/core</code> package instead.
      */
     public const VERSION = '4.0.0';
 
