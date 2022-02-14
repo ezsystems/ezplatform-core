@@ -37,7 +37,7 @@ class CompileAssetsCommand extends Command implements BackwardCompatibleCommand
             ->addOption(
                 'config-name',
                 'c',
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Config name passed to webpack encore',
                 null
             )
