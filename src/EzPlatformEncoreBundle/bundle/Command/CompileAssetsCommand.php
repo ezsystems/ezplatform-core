@@ -33,7 +33,15 @@ class CompileAssetsCommand extends Command implements BackwardCompatibleCommand
                 InputOption::VALUE_OPTIONAL,
                 'Timeout in seconds',
                 300
-            );
+            )
+            ->addOption(
+                'config-name',
+                'c',
+                InputOption::VALUE_OPTIONAL,
+                'Config name passed to webpack encore',
+                null
+            )
+        ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -49,12 +57,17 @@ class CompileAssetsCommand extends Command implements BackwardCompatibleCommand
     {
         $timeout = $input->getOption('timeout');
         $env = $input->getOption('env');
+        $configName = $input->getOption('config-name');
 
         $output->writeln(sprintf('Compiling all <comment>%s</comment> assets.', $env));
         $output->writeln('');
 
         $encoreEnv = $env === 'prod' ? 'prod' : 'dev';
         $yarnEncoreCommand = "yarn encore {$encoreEnv}";
+
+        if (!empty($configName)) {
+            $yarnEncoreCommand .= " --config-name {$configName}";
+        }
 
         $debugFormatter = $this->getHelper('debug_formatter');
 
