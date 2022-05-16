@@ -19,7 +19,7 @@ final class EzPlatformCoreBundle extends Bundle
     /**
      * Ibexa DXP Version.
      */
-    public const VERSION = '3.3.18';
+    public const VERSION = '3.3.19';
 
     public function getContainerExtension(): ExtensionInterface
     {
