@@ -99,11 +99,6 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
         $container->setParameter('solr_dsn', '%env(SOLR_DSN)%');
         $container->setParameter('solr_core', '%env(SOLR_CORE)%');
 
-        $container->setParameter('siso_search.solr.host', '%env(SISO_SEARCH_SOLR_HOST)%');
-        $container->setParameter('siso_search.solr.port', '%env(SISO_SEARCH_SOLR_PORT)%');
-        $container->setParameter('siso_search.solr.core', '%env(SISO_SEARCH_SOLR_CORE)%');
-        $container->setParameter('siso_search.solr.path', '%env(SISO_SEARCH_SOLR_PATH)%');
-
         $projectDir = $container->getParameter('kernel.project_dir');
 
         if ($dfsNfsPath = $_SERVER['DFS_NFS_PATH'] ?? false) {
@@ -286,20 +281,6 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
                 $container->setParameter('solr_dsn', sprintf('http://%s:%d/%s', $endpoint['host'], $endpoint['port'], 'solr'));
                 // To set solr_core parameter we assume path is in form like: "solr/collection1"
                 $container->setParameter('solr_core', substr($endpoint['path'], 5));
-
-                // Ibexa DXP Commerce needs special treatment due to Solarium use
-                // @todo Remove this once Commerce is fully rewritten
-                $bundles = $container->getParameter('kernel.bundles');
-
-                if (isset($bundles['SisoSearchBundle'])) {
-                    $container->setParameter('solr_dsn', sprintf('http://%s:%d', $endpoint['host'], $endpoint['port']));
-                    // To set solr_core parameter we assume path is in form like: "solr/collection1"
-                    $container->setParameter('solr_core', substr($endpoint['path'], 5));
-
-                    $container->setParameter('siso_search.solr.host', $endpoint['host']);
-                    $container->setParameter('siso_search.solr.port', $endpoint['port']);
-                    $container->setParameter('siso_search.solr.core', $endpoint['rel']);
-                }
             }
         }
 
