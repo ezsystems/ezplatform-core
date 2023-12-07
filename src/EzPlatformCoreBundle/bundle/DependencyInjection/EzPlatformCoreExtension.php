@@ -123,7 +123,7 @@ final class EzPlatformCoreExtension extends Extension implements PrependExtensio
 
         // Cache settings
         // If CACHE_POOL env variable is set, check if there is a yml file that needs to be loaded for it
-        if (($pool = $_SERVER['CACHE_POOL'] ?? false) && file_exists($projectDir . "/config/packages/cache_pool/${pool}.yaml")) {
+        if (($pool = $_SERVER['CACHE_POOL'] ?? false) && file_exists($projectDir . "/config/packages/cache_pool/{$pool}.yaml")) {
             $loader = new Loader\YamlFileLoader($container, new FileLocator($projectDir . '/config/packages/cache_pool'));
             $loader->load($pool . '.yaml');
         }
